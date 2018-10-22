@@ -1,6 +1,8 @@
 [submodule "src/app-autoscaler"]
 	path = src/app-autoscaler
 	url = https://github.com/FidelityInternational/app-autoscaler.git
+	commit = 9bc196b8f23cd9ed8624139d03f9a96559d8e68e
+	branch = merge-with-code
 [submodule "src/github.com/cloudfoundry-incubator/cf-test-helpers"]
 	path = src/github.com/cloudfoundry-incubator/cf-test-helpers
 	url = https://github.com/cloudfoundry-incubator/cf-test-helpers.git
@@ -16,3 +18,6 @@
 [submodule "src/gopkg.in/yaml.v2"]
 	path = src/gopkg.in/yaml.v2
 	url = https://gopkg.in/yaml.v2
+[submodule "merge-with-code"]
+	path = merge-with-code
+	url = https://github.com/FidelityInternational/app-autoscaler.git
