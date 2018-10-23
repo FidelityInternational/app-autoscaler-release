@@ -153,38 +153,6 @@ instance_groups:
           uris:
             - autoscaler.bosh-lite.com
 
-  - name: apiserver
-    release: app-autoscaler
-    properties:
-      api_server:
-        db_config: &db_config
-          idle_timeout: 1000
-          max_connections: 10
-          min_connections: 0
-        port: 6100
-        publicPort: 6106
-        ca_cert: ((apiserver_ca.ca))
-        server_cert: ((apiserver_server.certificate))
-        server_key:  ((apiserver_server.private_key))
-        public_ca_cert: ((apiserver_public_ca.ca))
-        public_server_cert: ((apiserver_public_server.certificate))
-        public_server_key:  ((apiserver_public_server.private_key))
-        scheduler:
-          ca_cert: ((scheduler_ca.ca))
-          client_cert: ((scheduler_client.certificate))
-          client_key: ((scheduler_client.private_key))
-        scaling_engine:
-          ca_cert: ((scalingengine_ca.ca))
-          client_cert: ((scalingengine_client.certificate))
-          client_key: ((scalingengine_client.private_key))
-        metrics_collector:
-          ca_cert: ((metricscollector_ca.ca))
-          client_cert: ((metricscollector_client.certificate))
-          client_key: ((metricscollector_client.private_key))
-      policy_db: *database
-      cf:
-        api: "https://api.((system_domain))"
-
 # Scheduler Instance Group
 - name: scheduler_autoscaler
   azs:
