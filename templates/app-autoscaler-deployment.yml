@@ -151,7 +151,7 @@ instance_groups:
           tags:
             component: api_server
           uris:
-            - autoscaler.bosh-lite.com
+            - autoscaler.((system_domain))
 
 # Scheduler Instance Group
 - name: scheduler_autoscaler
