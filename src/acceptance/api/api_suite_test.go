@@ -74,8 +74,11 @@ var _ = BeforeSuite(func() {
 	appName = generator.PrefixedRandomName("autoscaler", "nodeapp")
 	initialInstanceCount := 1
 	countStr := strconv.Itoa(initialInstanceCount)
-	createApp := cf.Cf("push", appName, "--no-start", "-i", countStr, "-b", cfg.NodejsBuildpackName, "-m", "128M", "-p", config.NODE_APP, "-d", cfg.AppsDomain).Wait(cfg.CfPushTimeoutDuration())
+	createApp := cf.Cf("push", appName, "--no-start", "--no-route","-i", countStr, "-b", cfg.NodejsBuildpackName, "-m", "128M", "-p", config.NODE_APP).Wait(cfg.CfPushTimeoutDuration())
 	Expect(createApp).To(Exit(0), "failed creating app")
+
+	mapRouteToApp := cf.Cf("map-route", appName, cfg.AppsDomain, "--hostname", appName).Wait(cfg.DefaultTimeoutDuration())
+	Expect(mapRouteToApp).To(Exit(0), "failed to map route to app")
 
 	guid := cf.Cf("app", appName, "--guid").Wait(cfg.DefaultTimeoutDuration())
 	Expect(guid).To(Exit(0))
@@ -85,7 +88,7 @@ var _ = BeforeSuite(func() {
 	WaitForNInstancesRunning(appGUID, initialInstanceCount, cfg.DefaultTimeoutDuration())
 
 	if cfg.IsServiceOfferingEnabled() {
-		serviceExists := cf.Cf("marketplace", "-s", cfg.ServiceName).Wait(cfg.DefaultTimeoutDuration())
+		serviceExists := cf.Cf("marketplace", "-e", cfg.ServiceName).Wait(cfg.DefaultTimeoutDuration())
 		Expect(serviceExists).To(Exit(0), fmt.Sprintf("Service offering, %s, does not exist", cfg.ServiceName))
 
 		instanceName = generator.PrefixedRandomName("autoscaler", "service")
@@ -134,11 +137,6 @@ var _ = AfterSuite(func() {
 	}
 
 	Expect(cf.Cf("delete", appName, "-f", "-r").Wait(cfg.DefaultTimeoutDuration())).To(Exit(0))
-	workflowhelpers.AsUser(setup.AdminUserContext(), cfg.DefaultTimeoutDuration(), func() {
-		if cfg.IsServiceOfferingEnabled() {
-			DisableServiceAccess(cfg, setup.GetOrganizationName())
-		}
-	})
 	setup.Teardown()
 })
 
