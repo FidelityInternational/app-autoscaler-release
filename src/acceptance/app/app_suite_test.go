@@ -62,7 +62,7 @@ var _ = BeforeSuite(func() {
 		}
 	})
 	if cfg.IsServiceOfferingEnabled() {
-		serviceExists := cf.Cf("marketplace", "-s", cfg.ServiceName).Wait(cfg.DefaultTimeoutDuration())
+		serviceExists := cf.Cf("marketplace", "-e", cfg.ServiceName).Wait(cfg.DefaultTimeoutDuration())
 		Expect(serviceExists).To(Exit(0), fmt.Sprintf("Service offering, %s, does not exist", cfg.ServiceName))
 	}
 
@@ -88,11 +88,6 @@ var _ = BeforeSuite(func() {
 })
 
 var _ = AfterSuite(func() {
-	workflowhelpers.AsUser(setup.AdminUserContext(), cfg.DefaultTimeoutDuration(), func() {
-		if cfg.IsServiceOfferingEnabled() {
-			DisableServiceAccess(cfg, setup.GetOrganizationName())
-		}
-	})
 	setup.Teardown()
 })
 
