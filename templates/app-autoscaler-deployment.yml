@@ -7,9 +7,9 @@ releases:
 - name: app-autoscaler
   version: latest
 - name: postgres
-  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=17
-  version: '17'
-  sha1: b062e32a5409ccd4e4161337c48705c793a58412
+  url: https://bosh.io/d/github.com/cloudfoundry/postgres-release?v=37
+  version: '37'
+  sha1: 0bffec6b98df81219a18ec8da0e19721be799eed
 - name: consul
   version: latest
 - name: routing
