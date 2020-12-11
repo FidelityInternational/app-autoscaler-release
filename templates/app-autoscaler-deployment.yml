@@ -37,6 +37,9 @@ instance_groups:
   azs:
   - z1
   instances: 1
+  persistent_disk_type: 10GB
+  vm_extensions:
+  - 10GB_ephemeral_disk
   update:
     serial: true
   stemcell: default
